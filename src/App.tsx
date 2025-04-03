@@ -7,14 +7,20 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import NavigationBar from "./components/AppBar";
 
 function App() {
   return (
     <BrowserRouter>
-      <Container maxWidth="lg">
+    
+      <NavigationBar />
+
+      <Container maxWidth="lg" sx={{ mt: 3 }}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6">Customer site</Typography>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Customer Management
+            </Typography>
           </Toolbar>
         </AppBar>
         <Routes>

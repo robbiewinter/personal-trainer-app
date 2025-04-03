@@ -1,21 +1,19 @@
 import { AllCommunityModule, ColDef, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
-import NavigationBar from "./AppBar";
+import dayjs from 'dayjs'
+import { Training } from "../types";
+import { getTrainings } from "../ptapi";
 
+// Registering the AG Grid community module
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-type Training = {
-    firstname: string;
-    lastname: string;
-    date: string;
-    duration: number;
-    activity: string;
-}
 
 export default function TrainingList() {
+    // Stores training data
     const [trainings, setTrainings] = useState<Training[]>([]);
 
+    // Defines columns for AG Grid
     const [columnDefs] = useState<ColDef<Training>[]>([
         { field: "firstname", filter: true},
         { field: "lastname", filter: true},
@@ -24,32 +22,31 @@ export default function TrainingList() {
         { field: "activity", filter: true, width: 130 }
     ]);
 
+    // Fetch training data when the component mounts
     useEffect(() => {
         fetchTrainings();
     }, [])
 
+    // Function to fetch training data from the API
     const fetchTrainings = () => {
-        fetch(import.meta.env.VITE_API_URL + "/gettrainings")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when fetching trainings.");
-            }
-            return response.json();
-        })
+        getTrainings()
         .then(data => {
-            const formattedData = data.map((training: any) => ({
+            // Format the fetched data
+            const formattedData = data.map((training: Training) => ({
                 ...training,
                 firstname: training.customer.firstname,
                 lastname: training.customer.lastname,
+                date: dayjs(training.date).format('DD.MM.YYYY hh:mm'),
             }));
-            setTrainings(formattedData);
+            setTrainings(formattedData); // Update state with formatted data
         })
-        .catch(error => console.error(error));
+        .catch(error => console.error(error)); // Log errors to the console
     }
 
     return (
         <>
-            <div style={{ width: '100%', height: 600}}>
+            {/* Renders AG Grid */}
+            <div style={{ width: '100%', height: 500}}>
                 <AgGridReact
                     rowData={trainings}
                     columnDefs={columnDefs}
@@ -57,7 +54,6 @@ export default function TrainingList() {
                     paginationAutoPageSize={true}
                 />
             </div>
-            <NavigationBar />
         </>
     )
 }

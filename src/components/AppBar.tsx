@@ -1,24 +1,21 @@
-import { AppBar, Toolbar, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Nav, Navbar } from 'react-bootstrap';
 
-export default function NavigationBar() {
-    return (
-        <AppBar sx={{
-            position: "static",
-            backgroundColor: "blue",
-            borderRadius: 2,
-            width: "20%",
-            margin: "0 auto",
-            
-        }}>
-            <Toolbar>
-                <Button color="inherit" component={Link} to="/customers">
-                    Customers
-                </Button>
-                <Button color="inherit" component={Link} to="/trainings">
-                    Trainings
-                </Button>
-            </Toolbar>
-        </AppBar>
-    );
+function AppBar() {
+  return (
+    <Navbar expand="lg" bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand>Navigation</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/customers">Customers</Nav.Link>
+            <Nav.Link href="/trainings">Trainings</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
+
+export default AppBar;

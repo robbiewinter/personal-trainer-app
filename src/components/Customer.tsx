@@ -1,23 +1,17 @@
 import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef } from "ag-grid-community";
-import NavigationBar from "./AppBar";
+import { Customer } from "../types";
+import { getCustomers } from "../ptapi";
 
+// Registering the AG Grid community modules
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-type Customer = {
-    firstname: string;
-    lastname: string;
-    streetaddress: string;
-    postcode: string;
-    city: string;
-    email: string;
-    phone: string;
-}
-
-export default function Carlist() {
+export default function CustomerList() {
+    // State to store the list of customers
     const [customers, setCustomers] = useState<Customer[]>([]);
 
+    // Column definitions for the AG Grid
     const [columnDefs] = useState<ColDef<Customer>[]>([
         { field: "firstname", filter: true},
         { field: "lastname", filter: true },
@@ -28,25 +22,22 @@ export default function Carlist() {
         { field: "phone", filter: true, width: 120 }
     ]);
 
+    // Fetch customers when the component is mounted
     useEffect(() => {
-        fetchCars();
+        fetchCustomers();
     }, [])
 
-    const fetchCars = () => {
-        fetch(import.meta.env.VITE_API_URL + "/customers")
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when fetching cars.");
-            }
-            return response.json()
-        })
+    // Function to fetch customers from the API
+    const fetchCustomers = () => {
+        getCustomers()
         .then(data => setCustomers(data._embedded.customers))
         .catch(error => console.error(error))
     }
   
     return (
         <>
-            <div style={{ width: '100%', height: 500}}>
+            {/* AG Grid to display customer data */}
+            <div style={{ width: '100%', height: 500, }}>
                 <AgGridReact
                     rowData={customers}
                     columnDefs={columnDefs}
@@ -54,7 +45,6 @@ export default function Carlist() {
                     paginationAutoPageSize={true}
                 />
             </div>
-            <NavigationBar />
         </>
     )
 }
