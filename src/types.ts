@@ -1,5 +1,8 @@
 // This file contains the type definitions for the application
-export type Customer = {
+export type Customer = Omit<CustomerData, "_links">;
+
+export type CustomerData = {
+    id: string;
     firstname: string;
     lastname: string;
     streetaddress: string;
