@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { Customer, CustomerData } from "../types";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import TextField from "@mui/material/TextField";
-import DialogActions from "@mui/material/DialogActions";
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions} from "@mui/material";
 
 type EditCustomerProps = {
     data: CustomerData;

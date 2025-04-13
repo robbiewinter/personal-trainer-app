@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from "ag-grid-community";
+import { Button, Snackbar} from "@mui/material";
 import { CustomerData } from "../types";
-import { getCustomers } from "../ptapi";
+import { getCustomers, deleteCustomer } from "../ptapi";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import ResetDatabaseButton from "./ResetDatabase";
 
 // Registering the AG Grid community modules
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -12,6 +14,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export default function CustomerList() {
     // State to store the list of customers
     const [customers, setCustomers] = useState<CustomerData[]>([]);
+    const [open, setOpen] = useState(false);
 
     // Column definitions for the AG Grid
     const [columnDefs] = useState<ColDef<CustomerData>[]>([
@@ -26,6 +29,13 @@ export default function CustomerList() {
             width: 120,
             cellRenderer: (params: ICellRendererParams) =>
                 <EditCustomer data={params.data} fetchCustomers={fetchCustomers} />
+        },
+        {
+            width: 120,
+            cellRenderer: (params: ICellRendererParams) => 
+                <Button size="small" color="error" onClick={() => handleDelete(params)}>
+                    Delete
+                </Button>
         }
     ]);
 
@@ -40,11 +50,22 @@ export default function CustomerList() {
         .then(data => setCustomers(data))
         .catch(error => console.error(error))
     }
+
+    const handleDelete = (params: ICellRendererParams) => {
+        if (window.confirm("Are you sure?")) {
+            deleteCustomer(params.data._links.self.href)
+            .then(() => fetchCustomers())
+            .then(() => setOpen(true))
+            .catch(err => console.error(err));
+        }
+    }
   
     return (
         <>
             <AddCustomer fetchCustomers={fetchCustomers}/>
-
+            <ResetDatabaseButton fetchCustomers={fetchCustomers} fetchTrainings={function (): void {
+                throw new Error("Function not implemented.");
+            } } />
             {/* AG Grid to display customer data */}
             <div style={{ width: '100%', height: 500, }}>
                 <AgGridReact
@@ -54,6 +75,12 @@ export default function CustomerList() {
                     paginationAutoPageSize={true}
                 />
             </div>
+            <Snackbar 
+                open={open}
+                autoHideDuration={3000}
+                onClose={() => setOpen(false)}
+                message="Customer deleted successfully"
+            />
         </>
     )
 }

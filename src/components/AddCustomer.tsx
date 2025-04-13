@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { CustomerData } from "../types";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
+import { Button, Dialog, DialogTitle, TextField, DialogContent, DialogActions} from "@mui/material";
+
 
 type AddCustomerProps = {
     fetchCustomers: () => void;
