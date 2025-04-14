@@ -24,3 +24,9 @@ export type TrainingData = {
         customer: { href: string };
     };
 };
+
+export type CalendarEvent = {
+    title: string;
+    start: Date;
+    end: Date;
+};

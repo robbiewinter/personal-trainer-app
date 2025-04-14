@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { AllCommunityModule, ModuleRegistry, ColDef, ICellRendererParams } from "ag-grid-community";
 import { Button, Snackbar} from "@mui/material";
@@ -15,6 +15,17 @@ export default function CustomerList() {
     // State to store the list of customers
     const [customers, setCustomers] = useState<CustomerData[]>([]);
     const [open, setOpen] = useState(false);
+
+    const gridRef = useRef<AgGridReact>(null);
+
+    const exportCsv = () => {
+        if (gridRef.current) {
+            gridRef.current.api.exportDataAsCsv({
+                fileName: "customers.csv",
+                allColumns: true,
+            });
+        }
+    };
 
     // Column definitions for the AG Grid
     const [columnDefs] = useState<ColDef<CustomerData>[]>([
@@ -66,9 +77,13 @@ export default function CustomerList() {
             <ResetDatabaseButton fetchCustomers={fetchCustomers} fetchTrainings={function (): void {
                 throw new Error("Function not implemented.");
             } } />
+            <Button variant="contained" onClick={exportCsv}>
+                Export to CSV
+            </Button>
             {/* AG Grid to display customer data */}
             <div style={{ width: '100%', height: 500, }}>
                 <AgGridReact
+                    ref={gridRef}
                     rowData={customers}
                     columnDefs={columnDefs}
                     pagination={true}

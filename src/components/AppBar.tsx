@@ -11,6 +11,7 @@ function AppBar() {
           <Nav className="me-auto">
             <Nav.Link href="/customers">Customers</Nav.Link>
             <Nav.Link href="/trainings">Trainings</Nav.Link>
+            <Nav.Link href="/calendar">Calendar</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Customer from "./components/Customer";
 import Training from "./components/Training";
+import PtCalendar from "./components/PtCalendar";
 import NavigationBar from "./components/AppBar";
 
 import Container from '@mui/material/Container';
@@ -18,6 +19,8 @@ function HeaderTitle() {
     title = "Trainings";
   } else if (currPage.pathname === "/customers") {
     title = "Customers";
+  } else if (currPage.pathname === "/calendar") {
+    title = "Calendar";
   }
 
   return (
@@ -41,6 +44,7 @@ function App() {
           <Route path="/" element={<Navigate to="/customers" replace />} />
           <Route path="/customers" element={<Customer />} />
           <Route path="/trainings" element={<Training />} />
+          <Route path="/calendar" element={<PtCalendar />} />
         </Routes>
         <CssBaseline />
       </Container>
