@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Training } from "../types";
 import { getTrainings, deleteTraining } from "../ptapi";
-import ResetDatabase from "./ResetDatabase";
 import AddTraining from "./AddTraining";
 import { Button } from "@mui/material";
 
@@ -64,12 +63,6 @@ export default function TrainingList() {
     return (
         <>
             <AddTraining fetchTrainings={fetchTrainings} />
-            <ResetDatabase
-                fetchTrainings={fetchTrainings}
-                fetchCustomers={function (): void {
-                    throw new Error("Function not implemented.");
-                }}
-            />
 
             {/* Renders AG Grid */}
             <div style={{ width: "100%", height: 500 }}>

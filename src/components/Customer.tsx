@@ -6,7 +6,6 @@ import { CustomerData } from "../types";
 import { getCustomers, deleteCustomer } from "../ptapi";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
-import ResetDatabaseButton from "./ResetDatabase";
 
 // Registering the AG Grid community modules
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -74,9 +73,6 @@ export default function CustomerList() {
     return (
         <>
             <AddCustomer fetchCustomers={fetchCustomers}/>
-            <ResetDatabaseButton fetchCustomers={fetchCustomers} fetchTrainings={function (): void {
-                throw new Error("Function not implemented.");
-            } } />
             <Button variant="contained" onClick={exportCsv}>
                 Export to CSV
             </Button>
