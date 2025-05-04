@@ -1,15 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import Customer from "./components/Customer";
-import Training from "./components/Training";
-import PtCalendar from "./components/PtCalendar";
-import NavigationBar from "./components/AppBar";
-
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import NavigationBar from './components/AppBar';
 import Container from '@mui/material/Container';
-import CssBaseline from "@mui/material/CssBaseline";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Customer from './components/Customer';
+import Training from './components/Training';
+import PtCalendar from './components/PtCalendar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
 
 function HeaderTitle() {
   const currPage = useLocation();
@@ -30,9 +28,11 @@ function HeaderTitle() {
   );
 }
 
+
 function App() {
   return (
-    <BrowserRouter>
+
+    <Router basename="/personal-trainer-app/">
       <NavigationBar />
       <Container maxWidth="lg" sx={{ mt: 3 }}>
         <AppBar position="static">
@@ -48,7 +48,7 @@ function App() {
         </Routes>
         <CssBaseline />
       </Container>
-    </BrowserRouter>
+    </Router>
   );
 }
 
